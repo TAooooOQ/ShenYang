@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.ProjectDao">
+    <resultMap id="baseResultMap" type="com.dao.po.ProjectPo">
+        <result column="id" property="id" jdbcType="INTEGER" />
+        <result column="project_name" property="projectName" jdbcType="VARCHAR"/>
+        <result column="project_describe" property="projectDescribe" jdbcType="VARCHAR" />
+        <result column="build_time" property="buildTime" jdbcType="TIMESTAMP" />
+        <result column="project_type" property="projectType" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <insert id="insert" parameterType="com.dao.po.ProjectPo">
+        insert into project_inf
+        (project_name,project_describe,build_time,project_type)
+        values (#{projectName}, #{projectDescribe}, #{buildTime}, #{projectType})
+    </insert>
+    <select id="selectAll" resultMap="baseResultMap" >
+        select * from project_inf
+    </select>
+    <update id="update" parameterType="com.dao.po.ProjectPo">
+        UPDATE project_inf
+        SET project_name=#{projectName},project_type=#{projectType},project_describe=#{projectDescribe}
+        where id=#{id}
+    </update>
+    <delete id="delete">
+        DELETE FROM project_inf
+        WHERE id=#{id};
+        DELETE FROM project_staff
+        WHERE project_id=#{id}
+    </delete>
+    <select id="selectById" resultMap="baseResultMap">
+        select * from project_inf
+        WHERE id=#{id};
+    </select>
+    <select id="selectByName" resultMap="baseResultMap">
+        SELECT * from project_inf
+        WHERE project_name
+        LIKE "%"#{name}"%"
+    </select>
+    <select id="selectByDate" resultMap="baseResultMap" parameterType="Date">
+        SELECT * FROM project_inf
+        WHERE build_time
+        BETWEEN #{beginTime} AND #{endTime}
+    </select>
+    <select id="selectByType" resultMap="baseResultMap">
+        SELECT * FROM project_inf
+        WHERE project_type=#{type}
+    </select>
+    <select id="selectByDescribe" resultMap="baseResultMap">
+        SELECT * FROM project_inf
+        WHERE project_describe
+        LIKE "%"#{keyword}"%"
+    </select>
+</mapper>

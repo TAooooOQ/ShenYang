@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <setting name="cacheEnabled" value="false" />
+    </settings>
+    <typeAliases>
+        <typeAlias type="com.dao.po.ApplicationPo" alias="ApplicationPo"/>
+        <typeAlias type="com.dao.po.UserPo" alias="UserPo"/>
+        <typeAlias type="com.dao.po.ProjectPo" alias="ProjectPo"/>
+        <typeAlias type="com.dao.po.StaffPo" alias="StaffPo"/>
+        <typeAlias type="com.dao.po.ProjectStaffPo" alias="ProjectStaffPo"/>
+        <typeAlias type="com.dao.po.UserRolePo" alias="UserRolePo"/>
+        <typeAlias type="com.dao.po.MessagePo" alias="MessagePo"/>
+    </typeAliases>
+
+    <typeHandlers>
+        <typeHandler handler="com.dao.handler.EnumHandler" javaType="com.bean.en.ApplicationEnum"/>
+        <typeHandler handler="com.dao.handler.EnumHandler" javaType="com.bean.en.PositionEnum"/>
+        <typeHandler handler="com.dao.handler.EnumHandler" javaType="com.bean.en.SexEnum"/>
+        <typeHandler handler="com.dao.handler.EnumHandler" javaType="com.bean.en.LoginStatus"/>
+    </typeHandlers>
+
+    <mappers>
+        <mapper resource="META-INF/mybatis/mapper/ProjectMapper.xml"/>
+        <mapper resource="META-INF/mybatis/mapper/StaffMapper.xml"/>
+        <mapper resource="META-INF/mybatis/mapper/ProjectStaffMapper.xml"/>
+        <mapper resource="META-INF/mybatis/mapper/ShiroMapper.xml"/>
+        <mapper resource="META-INF/mybatis/mapper/ApplicationMapper.xml"/>
+        <mapper resource="META-INF/mybatis/mapper/UserMapper.xml"/>
+        <mapper resource="META-INF/mybatis/mapper/UserRoleMapper.xml"/>
+        <mapper resource="META-INF/mybatis/mapper/MessageMapper.xml"/>
+    </mappers>
+</configuration>

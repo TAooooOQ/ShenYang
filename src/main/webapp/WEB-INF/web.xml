@@ -1,0 +1,81 @@
+<!DOCTYPE web-app PUBLIC
+        "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+        "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<!--<web-app xmlns="http://java.sun.com/xml/ns/javaee"-->
+         <!--xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+         <!--xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"-->
+         <!--version="2.5">-->
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+    <display-name>database</display-name>
+
+    <!--<context-param>-->
+        <!--<param-name>logbackConfigLocation</param-name>-->
+        <!--<param-value>classpath:logback.xml</param-value>-->
+    <!--</context-param>-->
+    <!--<listener>-->
+        <!--<listener-class>ch.qos.logback.ext.spring.web.LogbackConfigListener</listener-class>-->
+    <!--</listener>-->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:META-INF/spring/spring-service.xml</param-value>
+    </context-param>
+
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <session-config>
+        <session-timeout>720</session-timeout>
+    </session-config>
+
+    <filter>
+        <filter-name>encodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>encodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!--shiro filter-->
+    <filter>
+        <filter-name>shiroFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>shiroFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <servlet>
+        <servlet-name>mvc</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:META-INF/spring/spring-web.xml</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+        <multipart-config>
+            <!--上传到/tmp/upload 目录-->
+            <location>C:\Users\Administrator\Desktop\emms-master</location>
+            <!--文件大小为2M-->
+            <max-file-size>2097152</max-file-size>
+            <!--整个请求不超过4M-->
+            <max-request-size>4194304</max-request-size>
+            <!--所有文件都要写入磁盘-->
+            <file-size-threshold>0</file-size-threshold>
+        </multipart-config>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>mvc</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+</web-app>

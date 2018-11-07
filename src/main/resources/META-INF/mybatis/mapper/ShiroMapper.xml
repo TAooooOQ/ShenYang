@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.ShiroDao">
+
+    <resultMap id="userResultMap" type="com.dao.po.UserPo">
+        <result column="id" property="id" jdbcType="INTEGER" />
+        <result column="username" property="userName" jdbcType="VARCHAR" />
+        <result column="password" property="password" jdbcType="VARCHAR" />
+        <result column="email" property="email" jdbcType="VARCHAR" />
+        <result column="created_date" property="createdDate" jdbcType="TIMESTAMP" />
+        <result column="modified_date" property="modifiedDate" jdbcType="TIMESTAMP" />
+        <result column="last_login_time" property="lastLoginTime" jdbcType="TIMESTAMP" />
+        <result column="login_status" property="loginStatus" jdbcType="SMALLINT" />
+    </resultMap>
+    <resultMap id="roleResultMap" type="com.dao.po.RolePo">
+        <result column="id" property="id" jdbcType="INTEGER" />
+        <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+        <result column="role_type" property="roleType" jdbcType="INTEGER" />
+    </resultMap>
+
+
+    <sql id="userTableName">
+        user_inf
+    </sql>
+    <sql id="userRoleTableName">
+        user_role_mapping
+    </sql>
+    <sql id="roleTableName">
+        user_role
+    </sql>
+
+    <select id="getUserByUserName" resultMap="userResultMap">
+        select * from
+        <include refid="userTableName" />
+        where username = #{userName}
+    </select>
+    <select id="getUserRoleByUserId" resultMap="roleResultMap">
+        select * from
+        <include refid="roleTableName" />
+        where id = (
+          select role_id from
+          <include refid="userRoleTableName" />
+          where user_id = #{userId}
+        )
+    </select>
+
+
+</mapper>

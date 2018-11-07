@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.StaffDao">
+    <resultMap id="baseResultMap" type="com.dao.po.StaffPo">
+        <result column="id" property="id" jdbcType="INTEGER" />
+        <result column="staff_name" property="staffName" jdbcType="VARCHAR"/>
+        <result column="staff_age" property="staffAge" jdbcType="INTEGER" />
+        <result column="staff_phone" property="staffPhone" jdbcType="INTEGER" />
+        <result column="staff_sex" property="staffSex" jdbcType="INTEGER" />
+    </resultMap>
+
+    <insert id="insert" parameterType="com.dao.po.StaffPo">
+        insert into staff_inf
+        (staff_name,staff_age,staff_phone,staff_sex)
+        values (#{staffName}, #{staffAge}, #{staffPhone}, #{staffSex})
+    </insert>
+    <select id="selectAll" resultMap="baseResultMap" >
+        select * from staff_inf
+    </select>
+    <delete id="delete">
+        delete from staff_inf
+        WHERE id=#{id};
+        DELETE FROM project_staff
+        WHERE staff_id=#{id}
+    </delete>
+    <update id="update" parameterType="com.dao.po.StaffPo">
+        UPDATE staff_inf
+        SET staff_name=#{staffName},staff_age=#{staffAge},staff_phone=#{staffPhone},staff_sex=#{staffSex}
+        where id=#{id}
+    </update>
+    <select id="selectById" resultMap="baseResultMap">
+        SELECT * from staff_inf
+        WHERE id=#{id}
+    </select>
+    <select id="selectByName" resultMap="baseResultMap">
+        SELECT * FROM staff_inf
+        WHERE staff_name
+        LIKE "%"#{staffName}"%"
+    </select>
+    <select id="selectByAge" resultMap="baseResultMap">
+        SELECT * FROM staff_inf
+        WHERE staff_age
+        BETWEEN #{beginage} AND #{endage}
+    </select>
+</mapper>
